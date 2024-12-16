@@ -1,7 +1,7 @@
 <img src="Logo_UCO.png" style="width:1in" />
 <img src="facultad%20ciencias.jpg" style="width:1in" />
 
-Genómica de la sensibilidad a los fármacos en el cáncer
+# Genómica de la sensibilidad a los fármacos en el cáncer
 
 ================
 Ortiz G <b02orpeg@uco.es>Montes D <b92mobad@uco.es>Ferrer L
