@@ -1,0 +1,258 @@
+---
+title: |
+  ![](Logo_UCO.png){width=1in}
+  ![](facultad ciencias.jpg){width=1in}
+  
+  Genómica de la sensibilidad a los fármacos en el cáncer
+author: 
+  - "Ortiz G <b02orpeg@uco.es>"
+  - "Montes D <b92mobad@uco.es>"
+  - "Ferrer L <b02feril@uco.es>"
+date: "2024-12-05"
+output: 
+  github_document:
+    toc: true
+    html_preview: false
+bibliography: [bibliography.bib]
+link-citations: true
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<!-- cargamos las librerias que vamos a utilizar, queremos que el código se ejecute, pero no que aparezca en en nuestro documento final, también excluímos los avisos y mensajes -->
+
+```{r cargar-librerias, echo=FALSE, warning=FALSE, message=FALSE}
+library('ggplot2')
+library('tidyverse')
+library('knitr')
+```
+
+## 1. Introducción
+
+El conjunto de datos <span style="color: blue;">***Genómica de la sensibilidad a los fármacos en el cáncer***</span> (GDSC) constituye una herramienta clave para identificar **biomarcadores terapéuticos** en estudios sobre el **cáncer**. Este recurso integra información sobre la respuesta a medicamentos con perfiles genómicos de líneas celulares de cáncer, facilitando el análisis de la relación entre las **características genéticas** y la susceptibilidad a los **tratamientos farmacológicos** [@gdsc_genomics_2024].
+
+### 1.1 Datos
+
+A continuación, se muestra la **tabla de datos** analizada en este proyecto.
+
+```{r leer-datos, echo=FALSE}
+GDSC_DATASET <- read.csv("GDSC_DATASET.csv", row.names = NULL)
+```
+
+```{r tabla-inicial, echo=FALSE}
+TABLA <- GDSC_DATASET %>% 
+  select("DRUG_NAME", "CELL_LINE_NAME", "LN_IC50", "AUC", "Z_SCORE")
+kable(head(TABLA, 10), align = 'c', caption = "Tabla 1: Diez primeras filas")
+```
+### 1.2 Variables
+
+- **DRUG_NAME**: esta variable te indica el nombre del medicamento que se está evaluando en las células malignas.
+
+- **CELL_LINE_NAME**: La denominación de la línea de células tumorales empleada en nuestra investigación.
+
+- **⁠LN_IC50**: Es el logaritmo natural de la concentración del medicamento necesaria para disminuir a la mitad la actividad biológica de las células. Un valor reducido de LN_IC50 indica que el medicamento es muy eficaz, ya que se requiere una pequeña dosis para generar un gran impacto. Un valor elevado sugiere que el medicamento es menos eficaz, puesto que se requiere mayor cantidad para lograr el mismo efecto.
+
+- **⁠AUC**: El área bajo la curva (AUC) es un indicador que demuestra cuán eficaz es el medicamento para disminuir la actividad de las células tumorales. Cuanto más alto sea el AUC, más eficiente resulta el medicamento, puesto que señala que puede disminuir en mayor medida la actividad celular. Si el AUC es bajo, el medicamento no es tan eficaz.
+
+- **⁠Z_SCORE**: Es una medida que indica cuán sensible es una línea celular a un medicamento en relación con otras líneas celulares. Un valor positivo de Z_SCORE sugiere que la línea celular responde al fármaco, mientras que un valor negativo sugiere resistencia. Cuanto mayor sea el Z_SCORE, más eficaz resultará el medicamento para esa línea celular.
+
+### 1.3 Uso de Fármacos en el Cáncer
+
+**Ulixertinib** (Uso_Total: 1698) es el fármaco más utilizado en el estudio. Sin embargo, encontramos otros fármacos, como **Docetaxel** (NUM_CELL_LINES: 968), que han sido utilizados en una mayor cantidad de líneas celulares.
+
+```{r}
+USO_FÁRMACOS <- GDSC_DATASET %>%
+  count(DRUG_NAME, sort = TRUE)
+```
+
+```{r}
+USO_FÁRMACOS <- GDSC_DATASET %>%
+  select(DRUG_NAME, CELL_LINE_NAME) %>%  
+  group_by(DRUG_NAME) %>%  
+  summarise(
+    USO_TOTAL = n(),  
+    NUM_CELL_LINES = n_distinct(CELL_LINE_NAME)
+  ) %>%
+  arrange(desc(USO_TOTAL)) 
+```
+
+
+```{r vista TABLA, echo=FALSE}
+knitr::kable(head(USO_FÁRMACOS, 10), align = 'c', caption = "Tabla 2: Diez primeras filas")
+```
+
+## 2. Materiales y Métodos
+
+Los datos de este proyectos fueron descargados desde [kaggle](https://www.kaggle.com). Para llevar a cabo el análisis se hizo uso del programa Rstudio [@R-base] con las librerías dplyr [@R-dplyr] y ggplot [@R-ggplot2; @ggplot22016]. Para la realización de este informe se han utilizado los paquetes: knitr [@R-knitr; @knitr2015; @knitr2014], [@lubridate], [@forecats], [@stringr], [@purrr], [@tibble], [@tidyr]. 
+
+## 3. Objetivos
+
+A continuación, se presentan el **objetivo general** y los **objetivos específicos** de este estudio.
+
+### 3.1 Objetivo General
+
+- Investigar las relaciones entre los perfiles genómicos de líneas celulares cancerosas y su sensibilidad a diferentes fármacos, utilizando el conjunto de datos Genómica de la sensibilidad a los fármacos en el cáncer (GDSC), para identificar biomarcadores que puedan guiar el desarrollo de terapias personalizadas en el tratamiento del cáncer.
+
+### 3.2 Objetivos Específicos
+
+- Explorar diferencias en la sensibilidad a fármacos entre diversos tipos de cáncer y sus perfiles genómicos.
+- Identificar potenciales biomarcadores terapéuticos que puedan ser validados en investigaciones posteriores.
+
+## 4. Hipótesis
+
+La hipótesis planteada es la siguiente: <span style="color: blue;">**A mayor uso de un fármaco en las líneas celulares estudiadas, mayor será su eficacia en la inhibición del crecimiento celular**</span>.
+
+## 5. Resultados
+
+Se ha realizado un estudio estadístico para verificar la hipótesis planteada con anterioridad. Para ello, se han tenido en cuenta las variables cualitativas ***Fármaco*** y ***Línea Celular***, junto a las variables cuantitativas ***AUC***, ***LNIC50*** y ***Z_SCORE***. 
+
+### 5.1 Relación entre las variables: ***Fármaco***, ***Línea Celular*** y ***AUC***
+
+```{r}
+LINEA_DRUG_AUC <- GDSC_DATASET %>%
+  select(CELL_LINE_NAME, DRUG_NAME, AUC) %>%  
+  group_by(CELL_LINE_NAME) %>%  
+  summarise(
+    DRUG_NAME = DRUG_NAME[which.max(AUC)],  
+    AUC_max = max(AUC)  
+  ) %>%
+  arrange(desc(AUC_max)) %>%  
+  slice_head(n = 25) 
+```
+
+1. **AUC**: Muestra cuánto de efectivo es un fármaco al medir su concentración a lo largo del tiempo [@gdsc_genomics_2024].
+    - **Valores altos de AUC**: Mayor efectividad del fármaco.
+    - **Valores bajos de AUC**: Menor efectividad.
+2. **Ejes**:
+    - **Eje X**: Fármacos.
+    - **Eje Y**: Líneas celulares.
+3. **Puntos**:
+    - **Tamaño**: Mayor tamaño = mayor efectividad.
+    - **Color**: Colores claros = mayor AUC (más efectivo), colores oscuros = menor AUC (menos efectivo).
+
+```{r Gráfico Fármaco, Línea celular y AUC, echo=FALSE, fig.cap="Fig 1. Relación entre Fármaco, Línea celular y AUC", fig.align='center'}
+ggplot(LINEA_DRUG_AUC, aes(x = DRUG_NAME, y = CELL_LINE_NAME, size = AUC_max, color = AUC_max)) +
+  geom_point(alpha = 0.7) +  
+  scale_size_continuous(range = c(3, 10)) +  
+  scale_colour_viridis_c() +  
+  labs(
+    title = "Relación entre Fármaco, Línea Celular y AUC",
+    x = "Fármaco",
+    y = "Línea Celular",
+    size = "AUC",
+    color = "AUC"
+  ) +
+  theme_minimal() +  
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),  
+    plot.title = element_text(hjust = 0.5)  
+  )
+```
+4. **Interpretación**:
+    - Puntos grandes y claros indican fármacos efectivos.
+    - Puntos pequeños y oscuros indican fármacos menos efectivos.
+
+### 5.2. Relación entre las variables ***Fármaco***, ***Línea Celular*** y ***LN-IC50***
+
+```{r}
+RELACIÓN__DRUG_IC50 <- GDSC_DATASET %>% 
+  select(CELL_LINE_NAME, DRUG_NAME, LN_IC50) %>% 
+  filter(LN_IC50 < -7) %>%       
+  group_by(DRUG_NAME) %>% 
+  filter(LN_IC50 == min(LN_IC50)) %>% 
+  arrange(LN_IC50)
+```
+
+1. **LN_IC50**: Mide la concentración de un fármaco que inhibe el 50% de la actividad celular [@gdsc_genomics_2024].
+    - **Valores bajos de LN_IC50**: Mayor sensibilidad del fármaco.
+    - **Valores altos de LN_IC50**: Menor sensibilidad (resistencia).
+2. **Ejes**:
+    - **Eje X**: Fármacos.
+    - **Eje Y**: Líneas celulares ordenadas por sensibilidad al fármaco.
+3. **Puntos**:
+    - **Tamaño**: Mayor tamaño = mayor resistencia.
+    - **Color**: Colores claros = mayor resistencia, colores oscuros = mayor sensibilidad.
+
+```{r Gráfico Fármaco, Línea celular y LN_IC50, echo=FALSE, fig.cap="Fig 2. Relación entre Fármaco, Línea celular y LN_IC50", fig.align='center'}
+ggplot(RELACIÓN__DRUG_IC50, aes(x = DRUG_NAME, y = reorder(CELL_LINE_NAME, LN_IC50), size = LN_IC50, color = LN_IC50)) + 
+  geom_point(alpha = 0.8) +  
+  scale_size_continuous(range = c(3, 10)) +  
+  scale_colour_viridis_c() +  
+  labs(
+    title = "Relación entre Fármacos, Línea Celular y LN IC50",
+    x = "Fármaco",
+    y = "Línea Celular",
+    color = "LN_IC50"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),
+    axis.text.y = element_text(size = 8),
+    axis.text.x = element_text(size = 10, angle = 45, hjust = 1)
+  )
+```
+4. **Interpretación**:
+    - Puntos pequeños y oscuros indican que las líneas celulares son más sensibles al fármaco.
+    - Puntos grandes y claros indican resistencia al fármaco.
+
+### 5.3 Relación entre las variables ***Fármaco***, ***Línea Celular*** y ***Z-Score***
+
+```{r}
+REL_DRUG_ZSCORE <- GDSC_DATASET %>% 
+  select(CELL_LINE_NAME, DRUG_NAME, Z_SCORE) %>% 
+  group_by(CELL_LINE_NAME, DRUG_NAME) %>%  # Agrupamos por CELL_LINE_NAME y DRUG_NAME
+  arrange(desc(Z_SCORE))  # Ordenamos los resultados de mayor a menor Z_SCORE
+```
+
+1. **Z_SCORE**: Mide la actividad de un fármaco en una línea celular en comparación con otros valores [@gdsc_genomics_2024].
+    - **Valores altos de Z_SCORE**: Mayor actividad del fármaco.
+    - **Valores bajos de Z_SCORE**: Menor actividad o resistencia.
+2. **Ejes**:
+    - **Eje X**: Fármacos.
+    - **Eje Y**: Líneas celulares ordenadas por Z_SCORE.
+3. **Puntos**:
+    - **Tamaño**: Mayor tamaño = mayor actividad del fármaco.
+    - **Color**: Diferencia entre fármacos usando colores.
+
+```{r Gráfico Fármaco, Línea celular y Z_SCORE, echo=FALSE, fig.cap="Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE", fig.align='center'}
+REL_DRUG_ZSCORE_TOP25 <- REL_DRUG_ZSCORE %>%
+  head(25) 
+
+ggplot(REL_DRUG_ZSCORE_TOP25, aes(x = DRUG_NAME, y = reorder(CELL_LINE_NAME, Z_SCORE), size = Z_SCORE, color = DRUG_NAME)) +
+  geom_point(alpha = 0.7) +  
+  scale_size_continuous(range = c(3, 10)) +  
+  scale_colour_viridis_d() +  
+  labs(
+    title = "Relación entre Fármaco, Línea Celular y ZSCORE",
+    x = "Fármaco",
+    y = "Línea Celular",
+    size = "Z_SCORE",
+    color = "Fármaco"  
+  ) +
+  theme_minimal() +  
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),  
+    plot.title = element_text(hjust = 0.5)  
+  )
+```
+4. **Interpretación**:
+    - Puntos grandes indican fármacos activos en esa línea celular.
+    - Puedes ver rápidamente qué fármacos tienen más actividad en qué líneas celulares.
+
+## 6. Conclusiones
+
+<span style="color: red;">**La hipótesis propuesta inicialmente no se acepta**</span>. "A mayor uso de un fármaco en las líneas celulares estudiadas, mayor será su eficacia en la inhibición del crecimiento celular" no se sostiene con los gráficos analizados.
+
+- En el **Gráfico 1 (AUC)**, no todos los fármacos más usados tienen una alta eficacia (AUC). Algunos fármacos comunes muestran baja efectividad.
+- En el **Gráfico 2 (LN_IC50)**, fármacos con mayor uso pueden requerir mayores concentraciones para ser efectivos, lo que indica menor eficacia.
+- En el **Gráfico 3 (Z_SCORE)**, no siempre los fármacos con mayor uso tienen la mayor actividad en todas las líneas celulares.
+
+**Un mayor uso de un fármaco no garantiza una mayor eficacia en la inhibición del crecimiento celular**
+
+## 7. Referencias y bibliografía
+
+```{r sessionInfo, echo=FALSE}
+session <- sessionInfo()
+print(session)
+```
