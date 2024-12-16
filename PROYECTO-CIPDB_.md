@@ -185,7 +185,7 @@ variables cuantitativas ***AUC***, ***LNIC50*** y ***Z_SCORE***.
 
 <img src="PROYECTO-CIPDB_files/figure-gfm/Gráfico Fármaco, Línea celular y AUC-1.png" alt="Fig 1. Relación entre Fármaco, Línea celular y AUC"  />
 <p class="caption">
-*Fig 1. Relación entre Fármaco, Línea celular y AUC*
+Fig 1. Relación entre Fármaco, Línea celular y AUC
 </p>
 
 </div>
@@ -212,7 +212,7 @@ variables cuantitativas ***AUC***, ***LNIC50*** y ***Z_SCORE***.
 
 <img src="PROYECTO-CIPDB_files/figure-gfm/Gráfico Fármaco, Línea celular y LN_IC50-1.png" alt="Fig 2. Relación entre Fármaco, Línea celular y LN_IC50"  />
 <p class="caption">
-*Fig 2. Relación entre Fármaco, Línea celular y LN_IC50*
+Fig 2. Relación entre Fármaco, Línea celular y LN_IC50
 </p>
 
 </div>
@@ -240,7 +240,7 @@ variables cuantitativas ***AUC***, ***LNIC50*** y ***Z_SCORE***.
 
 <img src="PROYECTO-CIPDB_files/figure-gfm/Gráfico Fármaco, Línea celular y Z_SCORE-1.png" alt="Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE"  />
 <p class="caption">
-*Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE*
+Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE
 </p>
 
 </div>
