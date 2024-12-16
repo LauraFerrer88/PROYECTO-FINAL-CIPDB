@@ -1,5 +1,5 @@
 # PROYECTO-FINAL-CIPDB
-** GENÓMICA DE LA SENSIBILIDAD A LOS FÁRMACOS EN EL CÁNCER **
+**GENÓMICA DE LA SENSIBILIDAD A LOS FÁRMACOS EN EL CÁNCER**
 
 En nuestro proyecto los integrantes somos: Domingo Montes Barrera, Gabriel Ortiz Pérez, Laura Ferrer del Río.  
 
