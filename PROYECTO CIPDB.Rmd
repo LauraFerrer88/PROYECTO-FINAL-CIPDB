@@ -47,7 +47,7 @@ kable(head(TABLA, 10), align = 'c', caption = "Tabla 1: Diez primeras filas")
 ```
 ### 1.2 Variables
 
-- **DRUG_NAME**: esta variable te indica el nombre del medicamento que se está evaluando en las células malignas.
+- **DRUG_NAME**: Esta variable te indica el nombre del medicamento que se está evaluando en las células malignas.
 
 - **CELL_LINE_NAME**: La denominación de la línea de células tumorales empleada en nuestra investigación.
 
@@ -55,7 +55,7 @@ kable(head(TABLA, 10), align = 'c', caption = "Tabla 1: Diez primeras filas")
 
 - **⁠AUC**: El área bajo la curva (AUC) es un indicador que demuestra cuán eficaz es el medicamento para disminuir la actividad de las células tumorales. Cuanto más alto sea el AUC, más eficiente resulta el medicamento, puesto que señala que puede disminuir en mayor medida la actividad celular. Si el AUC es bajo, el medicamento no es tan eficaz.
 
-- **⁠Z_SCORE**: Es una medida que indica cuán sensible es una línea celular a un medicamento en relación con otras líneas celulares. Un valor positivo de Z_SCORE sugiere que la línea celular responde al fármaco, mientras que un valor negativo sugiere resistencia. Cuanto mayor sea el Z_SCORE, más eficaz resultará el medicamento para esa línea celular.
+- **⁠Z_SCORE**: Es una medida que indica como de sensible es una línea celular a un medicamento en relación con otras líneas celulares. Un valor positivo de Z_SCORE sugiere que la línea celular responde al fármaco, mientras que un valor negativo sugiere resistencia. Cuanto mayor sea el Z_SCORE, más eficaz resultará el medicamento para esa línea celular.
 
 ### 1.3 Uso de Fármacos en el Cáncer
 
@@ -121,7 +121,7 @@ LINEA_DRUG_AUC <- GDSC_DATASET %>%
   slice_head(n = 25) 
 ```
 
-1. **AUC**: Muestra cuánto de efectivo es un fármaco al medir su concentración a lo largo del tiempo [@gdsc_genomics_2024].
+1. **AUC**: Muestra como de efectivo es un fármaco al medir su concentración a lo largo del tiempo [@gdsc_genomics_2024].
     - **Valores altos de AUC**: Mayor efectividad del fármaco.
     - **Valores bajos de AUC**: Menor efectividad.
 2. **Ejes**:
@@ -131,7 +131,7 @@ LINEA_DRUG_AUC <- GDSC_DATASET %>%
     - **Tamaño**: Mayor tamaño = mayor efectividad.
     - **Color**: Colores claros = mayor AUC (más efectivo), colores oscuros = menor AUC (menos efectivo).
 
-```{r Gráfico Fármaco, Línea celular y AUC, echo=FALSE, fig.cap="Fig 1. Relación entre Fármaco, Línea celular y AUC", fig.align='center'}
+```{r Gráfico Fármaco, Línea celular y AUC, echo=FALSE, fig.cap="*Fig 1. Relación entre Fármaco, Línea celular y AUC*", fig.align='center'}
 ggplot(LINEA_DRUG_AUC, aes(x = DRUG_NAME, y = CELL_LINE_NAME, size = AUC_max, color = AUC_max)) +
   geom_point(alpha = 0.7) +  
   scale_size_continuous(range = c(3, 10)) +  
@@ -174,7 +174,7 @@ RELACIÓN__DRUG_IC50 <- GDSC_DATASET %>%
     - **Tamaño**: Mayor tamaño = mayor resistencia.
     - **Color**: Colores claros = mayor resistencia, colores oscuros = mayor sensibilidad.
 
-```{r Gráfico Fármaco, Línea celular y LN_IC50, echo=FALSE, fig.cap="Fig 2. Relación entre Fármaco, Línea celular y LN_IC50", fig.align='center'}
+```{r Gráfico Fármaco, Línea celular y LN_IC50, echo=FALSE, fig.cap="*Fig 2. Relación entre Fármaco, Línea celular y LN_IC50*", fig.align='center'}
 ggplot(RELACIÓN__DRUG_IC50, aes(x = DRUG_NAME, y = reorder(CELL_LINE_NAME, LN_IC50), size = LN_IC50, color = LN_IC50)) + 
   geom_point(alpha = 0.8) +  
   scale_size_continuous(range = c(3, 10)) +  
@@ -215,7 +215,7 @@ REL_DRUG_ZSCORE <- GDSC_DATASET %>%
     - **Tamaño**: Mayor tamaño = mayor actividad del fármaco.
     - **Color**: Diferencia entre fármacos usando colores.
 
-```{r Gráfico Fármaco, Línea celular y Z_SCORE, echo=FALSE, fig.cap="Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE", fig.align='center'}
+```{r Gráfico Fármaco, Línea celular y Z_SCORE, echo=FALSE, fig.cap="*Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE*", fig.align='center'}
 REL_DRUG_ZSCORE_TOP25 <- REL_DRUG_ZSCORE %>%
   head(25) 
 
@@ -238,7 +238,7 @@ ggplot(REL_DRUG_ZSCORE_TOP25, aes(x = DRUG_NAME, y = reorder(CELL_LINE_NAME, Z_S
 ```
 4. **Interpretación**:
     - Puntos grandes indican fármacos activos en esa línea celular.
-    - Puedes ver rápidamente qué fármacos tienen más actividad en qué líneas celulares.
+    - Es posibe identificar rápidamente que fármacos muestran una mayor actividad en cada linea celular.
 
 ## 6. Conclusiones
 
