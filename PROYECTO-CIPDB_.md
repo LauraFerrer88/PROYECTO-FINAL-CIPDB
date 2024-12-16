@@ -3,9 +3,10 @@
 
 # Genómica de la sensibilidad a los fármacos en el cáncer
 
-================
-Ortiz G <b02orpeg@uco.es>Montes D <b92mobad@uco.es>Ferrer L
-<b02feril@uco.es>
+Ortiz G <b02orpeg@uco.es> 
+Montes D <b92mobad@uco.es>
+Ferrer L <b02feril@uco.es>
+
 2024-12-05
 
 - [1. Introducción](#1-introducción)
