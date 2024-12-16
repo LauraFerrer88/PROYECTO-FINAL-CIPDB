@@ -43,7 +43,7 @@ GDSC_DATASET <- read.csv("GDSC_DATASET.csv", row.names = NULL)
 ```{r tabla-inicial, echo=FALSE}
 TABLA <- GDSC_DATASET %>% 
   select("DRUG_NAME", "CELL_LINE_NAME", "LN_IC50", "AUC", "Z_SCORE")
-kable(head(TABLA, 10), align = 'c', caption = "Tabla 1: Diez primeras filas")
+kable(head(TABLA, 10), align = 'c', caption = "*Tabla 1: Diez primeras filas*")
 ```
 ### 1.2 Variables
 
@@ -79,7 +79,7 @@ USO_FÁRMACOS <- GDSC_DATASET %>%
 
 
 ```{r vista TABLA, echo=FALSE}
-knitr::kable(head(USO_FÁRMACOS, 10), align = 'c', caption = "Tabla 2: Diez primeras filas")
+knitr::kable(head(USO_FÁRMACOS, 10), align = 'c', caption = "*Tabla 2: Diez primeras filas*")
 ```
 
 ## 2. Materiales y Métodos
