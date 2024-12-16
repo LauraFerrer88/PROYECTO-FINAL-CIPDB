@@ -62,11 +62,11 @@ proyecto.
 | Camptothecin |     SW780      | -1.449138 | 0.905050 | 0.441154  |
 | Camptothecin |     TCCSUP     | -2.350633 | 0.843430 | -0.049682 |
 
-Tabla 1: Diez primeras filas
+*Tabla 1: Diez primeras filas*
 
 ### 1.2 Variables
 
-- **DRUG_NAME**: esta variable te indica el nombre del medicamento que
+- **DRUG_NAME**: Esta variable te indica el nombre del medicamento que
   se está evaluando en las células malignas.
 
 - **CELL_LINE_NAME**: La denominación de la línea de células tumorales
@@ -81,13 +81,13 @@ Tabla 1: Diez primeras filas
   efecto.
 
 - **⁠AUC**: El área bajo la curva (AUC) es un indicador que demuestra
-  cuán eficaz es el medicamento para disminuir la actividad de las
+  como de eficaz es el medicamento para disminuir la actividad de las
   células tumorales. Cuanto más alto sea el AUC, más eficiente resulta
   el medicamento, puesto que señala que puede disminuir en mayor medida
   la actividad celular. Si el AUC es bajo, el medicamento no es tan
   eficaz.
 
-- **⁠Z_SCORE**: Es una medida que indica cuán sensible es una línea
+- **⁠Z_SCORE**: Es una medida que indica como de sensible es una línea
   celular a un medicamento en relación con otras líneas celulares. Un
   valor positivo de Z_SCORE sugiere que la línea celular responde al
   fármaco, mientras que un valor negativo sugiere resistencia. Cuanto
@@ -114,7 +114,7 @@ líneas celulares.
 |   Acetalax   |   1434    |      717       |
 |    MG-132    |    969    |      969       |
 
-Tabla 2: Diez primeras filas
+*Tabla 2: Diez primeras filas*
 
 ## 2. Materiales y Métodos
 
@@ -185,7 +185,7 @@ variables cuantitativas ***AUC***, ***LNIC50*** y ***Z_SCORE***.
 
 <img src="PROYECTO-CIPDB_files/figure-gfm/Gráfico Fármaco, Línea celular y AUC-1.png" alt="Fig 1. Relación entre Fármaco, Línea celular y AUC"  />
 <p class="caption">
-Fig 1. Relación entre Fármaco, Línea celular y AUC
+*Fig 1. Relación entre Fármaco, Línea celular y AUC*
 </p>
 
 </div>
@@ -212,7 +212,7 @@ Fig 1. Relación entre Fármaco, Línea celular y AUC
 
 <img src="PROYECTO-CIPDB_files/figure-gfm/Gráfico Fármaco, Línea celular y LN_IC50-1.png" alt="Fig 2. Relación entre Fármaco, Línea celular y LN_IC50"  />
 <p class="caption">
-Fig 2. Relación entre Fármaco, Línea celular y LN_IC50
+*Fig 2. Relación entre Fármaco, Línea celular y LN_IC50*
 </p>
 
 </div>
@@ -240,15 +240,14 @@ Fig 2. Relación entre Fármaco, Línea celular y LN_IC50
 
 <img src="PROYECTO-CIPDB_files/figure-gfm/Gráfico Fármaco, Línea celular y Z_SCORE-1.png" alt="Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE"  />
 <p class="caption">
-Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE
+*Fig 3. Relación entre Fármaco, Línea celular y Z_SCORE*
 </p>
 
 </div>
 
 4.  **Interpretación**:
     - Puntos grandes indican fármacos activos en esa línea celular.
-    - Puedes ver rápidamente qué fármacos tienen más actividad en qué
-      líneas celulares.
+    - Es posible identificar rápidamente que fármacos muestran una mayor actividad en cada línea celular.
 
 ## 6. Conclusiones
 
